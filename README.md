@@ -63,3 +63,38 @@ La cuarta y última escena de esta práctica consiste en aplicar uno de los prin
 ![image](https://user-images.githubusercontent.com/72798314/227643310-9a58488e-b2f4-418b-a136-a3ab8909176c.png)
 
 ![image](https://user-images.githubusercontent.com/72798314/227643516-0acdf54b-2a05-47f1-a059-bd692f563667.png)
+
+## Práctica 3 - Interacción entre objetos, trayectorias y timing
+El objetivo de esta práctica consiste en poner a prueba todos los conocimientos adquiridos en las dos prácticas anteriores. Para ello, solo se presenta un único ejercicio que trata de componer una escena con dos plataformas de salto, un balancín y dos esferas. Las esferas saltarán entre el trampolín y su plataforma correspondiente turnándose, primero una y luego la otra. A su vez, habrá colocadas tres luces en la escena. Estás estará encima de las plataformas y el trampolín, y cambiarán de color e intensidad dependiendo si una esfera está pasando por debajo. Además, como la segunda parte de la animación es lo mismo que la primera pero reproducido a la inversa se debe automatizar el proceso para que se repita en bucle. Finalmente se añade una cámara que orbita a la escena.
+
+### Puesta en escena
+El primer paso es modelar todos los elementos necesarios y colocarlos en su posición inicial en la escena. Las plataformas están construidas con un modelo jerárquico formado por dos cilindros siendo el inferior el nodo padre. El trampolín también está construido con un modelo jerárquico formado por un prisma triangular colocado sobre un costado (nodo padre) y una prisma rectagular muy alargado a modo de tabla. A continuación, se muestra una ilustración de la escena.
+
+![image](https://user-images.githubusercontent.com/72798314/230965387-44461ed0-01b6-4903-9c80-ea19c5202f73.png)
+
+### Fotogramas clave
+Para poder animar el movimiento de las esferas y el trampolín es necesario crear claves. Este proceso se debe hacer de manera simultánea para sincronizar de manera perfecta la caida de las esferas con el balanceo del trampolín. Las claves de una esfera son las misma que la otra pero a la inversa, es decir, cuando una sube la otra baja. Hasta este momento solo hay creadas claves para la mitad de la animación, para automatizar la segunda mitad en el menú "Param Curve Out-of-Range Types" elegimos el modo "Ping Pong". Las siguientes ilustraciones muestran las claves para las esferas (traslación en X y Z) y el trampolín (rotación en Z) respectivamente.
+
+![image](https://user-images.githubusercontent.com/72798314/230966665-9274ec63-2c77-462a-9f78-d5af0f0819d1.png)
+
+![image](https://user-images.githubusercontent.com/72798314/230966831-0b3af6af-fc89-4fec-926e-f7a9042b33b7.png)
+
+### Luces en la escena
+El siguiente paso es añadir tres luces, dos sobre las plataformas y una sobre el trampolín. Estas luces son de tipo "Free Light" y están configuradas para que tengan su intensidad máxima y color blanco cuando haya una esfera pasando por debajo y su intensidad mínima y color rojo cuando no hayan esferas pasando. En la siguiente ilustración se muestra la composición de la escena con las luces añadidas.
+
+![image](https://user-images.githubusercontent.com/72798314/230967789-aa8b1f9d-f218-4a1e-b70c-30ad0cd075c1.png)
+
+Para lograr dichos efectos de luz es necesario añadir determinados fotogramas claves para la intesidad y el color. También se ha automatizado el proceso con el método mencionado en el paso anterior. A continuación, se muestras ilustraciones que muestran las claves de la intensidad y color respectivamente para las tres luces.
+
+![image](https://user-images.githubusercontent.com/72798314/230968424-ecbc3a14-ef00-4cfe-9ad4-7b2c594b1a34.png)
+
+![image](https://user-images.githubusercontent.com/72798314/230968509-f25da43c-08db-4b66-bca7-bc0797c01388.png)
+
+### Movimiento de la cámara
+El último paso es crear una cámara que orbite a la escena. Para ello, se añade una cámara de tipo "Target" y se configurar su posición y a donde apunta. Para hacer que orbite se crea un "Helper", se pone a la cámara como nodo hijo y se añaden las claves necesarias para que rote el "Helper" arrastrando la cámara consigo (rotación en Z). También se ha añadido una cuarta luz que acompaña a la cámara para alumbrar la escena (nodo hijo), sino fuera por esta luz la escena se vería muy oscura. Las ilustraciones siguiente muestran la disposición de la cámara y las claves empleadas para la rotación.
+
+![image](https://user-images.githubusercontent.com/72798314/230969437-e34727b1-a211-4991-99c7-3398048b95ae.png)
+
+![image](https://user-images.githubusercontent.com/72798314/230969524-c75358fb-4517-424f-bb3f-7077dc42af6b.png)
+
+![render](https://user-images.githubusercontent.com/72798314/230969794-b9d26eb1-4a76-4bdb-a82a-cfd10f09abf4.jpg)
