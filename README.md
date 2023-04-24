@@ -98,3 +98,51 @@ El último paso es crear una cámara que orbite a la escena. Para ello, se añad
 ![image](https://user-images.githubusercontent.com/72798314/230969524-c75358fb-4517-424f-bb3f-7077dc42af6b.png)
 
 ![render](https://user-images.githubusercontent.com/72798314/230969794-b9d26eb1-4a76-4bdb-a82a-cfd10f09abf4.jpg)
+
+## Práctica 4 - Animación con restricciones
+Esta práctica tiene como ejercicio una única escena en la que se utilizarán todas las restricciones de animación que ofrece 3DS Max (path, look at, link o position). Además, debe haber una c´mara que siga el recorrido por la escena.
+
+### Modelado
+Esta etapa se centra en el diseño y construcción de los objetos que habrá en la escena para su posterior animación. Los dos principales elementos para modelar son una espada y un coche.
+La espada se ha construido mediante un modelo jerárquico utilizando cilindros y conos. En la siguiente ilustración se muestra el resultado final.
+
+![image](https://user-images.githubusercontent.com/72798314/233962981-550517dd-bbd8-45ed-8346-9f4e24ee7131.png)
+
+El modelo del coche se ha mejorado con respecto a la práctica 2. Para ello, se han utilizado "Compound Objects" para recrear un modelado más realista. Este tipo de objetos permiten operaciones geométricas como la unión, intersección, resta... El modelo del ocche consiste en un modelo jerárquico donde el chasis es el nodo padre y todos los demás elementos son nodos hijo. La siguiente ilustración muestra el resultado final.
+
+![image](https://user-images.githubusercontent.com/72798314/233963401-a47ed3a6-4773-45e8-bbd5-b7cad05effe8.png)
+
+### Animación: cambio de mano
+La espada comienza ligada a una esfera M1 que la sostiene y se mueve con esta. Cuando se acerca a M2 (otra esfera), la espada se desprende de M1 y salta hasta M2 para ligarse a esta. Finalmente, M2 se aleja con la espada. Para realizar este movimiento se ha utilizado la restricción Link Constraint. Inicialmente, la espada tiene la restricción ligada a M1, cuando salta se enlaza a World y cuando termina el salto se enlaza a M2. Las únicas claves que son necesarias para el movimiento de la espada son las del salto.
+
+### Animación: subida en la grúa
+M2, que sostiene la espada, comienza a moverse hacia la grúa, cuando está cerca, la espada vuelve a saltar hacia la grúa. Esto se hace como en el apartado anterior, enlazando a World, animando el salto de la espada y enlazando a la base de la grúa. En las siguientes ilustraciones se muestran la restricción de tipo Link Constraint y las claves para los saltos de la espada.
+
+![image](https://user-images.githubusercontent.com/72798314/233964918-251bf47b-ab11-47ef-9483-ed3071a94190.png)
+
+![image](https://user-images.githubusercontent.com/72798314/233964938-e394045b-64dc-4fa0-a371-e321e0056440.png)
+
+### Animación: movimiento de la grúa
+Para lograr que la grúa gire con las plataformas no se podría usar un modelo jerárquico porque, de ser así, las plataformas también rotaría. Para ello, es necesario utilizar la restricción Position Constraint que hace que la posición de un objeto esté fijada por otro, pero no afecta a su rotación. Primero, se modela el cilindro que sujetará las dos plataformas y se le colocará un helper en cada extremo como nodos hijo. De esta manera, se pueden utilizar ambos helpers como elementos a los que se fijará la posición de las plataformas. Finalmente, se anima mediante claves la rotación de la grúa y como la espada sigue enlazada a una de las bases, esta también rotará con la grúa.
+
+### Animación: orientación de la espada
+La espada comienza apuntando hacia arriba, pero en un determinado momento de la animación (cuando la grúa llega a su punto superior), la espada debe cambiar su orientación para apuntar al coche. Para lograr este efecto se ha ce uso de la restricción Look At Constraint que modifica la orientación de un objeto para que mire a otro.Para que la espada no esté mirando constantemente al coche se cambia su peso para que mira hacia arriva al principio y cuando toque mirarlo se le aumenta el peso. El problema que surge es que 3DS Max si no detecta ningún objeto con peso, hace que la espada apunte al origen de coordenanadas. Esto se soluciona añadiendo un helper encima de la espada que la acompaña a lo largo de todo el recorrido y se le asigna un peso.
+
+![image](https://user-images.githubusercontent.com/72798314/233966549-f2ad68d7-9dca-4c24-b438-bad34e60f957.png)
+
+![image](https://user-images.githubusercontent.com/72798314/233966564-0ea73ea5-addc-4a5c-8597-a7f33a51e7c2.png)
+
+### Animación: movimiento del coche
+Para lograr que el coche se mueva por la escena se utilizará la restricción Path Constraint que modifica la posición y, opcionalmente, la rotación (con la opción follow) de un objeto para que siga un camino definido por un spline. Primeramente, hay que crear el spline que es una curva definida por un conjunto de puntos. Después, se le asigna el spline a la restricción path del coche para que siga el camino y se crean las claves necesarias para que empiece a moverse en el instante que queramos.
+
+![image](https://user-images.githubusercontent.com/72798314/233967043-401de880-55bf-4d15-9551-3ec62117aa2e.png)
+
+![image](https://user-images.githubusercontent.com/72798314/233967083-68c0269a-7196-4597-bd3c-1fda971e6101.png)
+
+### Cámara
+El último apartado para terminar la animación es colocar una cámara que se mueva por la escena enfocando la acción principal en cada momento. Para ello, se ha utilizado una cámara de tipo Target que se mueve sobre un spline mediante la restricción Path Constraint (sin la opción follow). Para la cámara ha habido que crear varias claves para sincronizar el movimiento con la acción de la escena.
+
+![image](https://user-images.githubusercontent.com/72798314/233967461-41ae6d6b-21ce-491c-9c6f-025411fe47f9.png)
+
+![image](https://user-images.githubusercontent.com/72798314/233967596-a34e5b26-057d-4e88-aa0e-0d0be98d85ef.png)
+
